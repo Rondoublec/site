@@ -1,0 +1,95 @@
+﻿<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<title>Titolo</title>
+
+<link rel="stylesheet" href="styles.css">
+<script language='javascript' src='functions.js'></script>
+<script language='javascript' src='tav_data.js'></script>
+
+<script>
+
+function getParam(param) {
+	var		s = new String(document.location);
+	var		i;
+	var		e;
+	
+	i = s.lastIndexOf(".html?");
+	if(i == -1) {	return "";	}
+	
+	s = "&" + s.substring(i + 6, s.length) + "&";
+	
+	i = s.indexOf("&" + param + "=") + param.length + 2;
+	if(i == -1) {	return "";	}
+	
+	e = s.indexOf("&", i);
+	
+	return s.substring(i, e);
+}
+
+
+var		codice		= getParam("codice");
+var		tipo		= getParam("tipo");
+var		lastGIF 	= 1;
+var		gray_color	= "#E8E8E8";
+
+if(tipo == "t") {
+	displayTavs();
+} else {
+	displayCod(codice);
+}
+
+
+function displayCod(codice)
+{
+	var		s = new String("");
+	var		c = new String("");
+	var		i;
+	var		k = 0;
+	var		len = codice.length;
+	var		ico_pointer	= "<img src='icons/a_right.gif' align=center border=0>";
+	var		bgcolor = "";
+	
+	if(len < 3)	{	return;	}	
+		
+	document.clear();
+	
+	s += "<table width=100% align=center cellspacing=0 border=0>\n";
+	
+	for(i = 0; i < parti.length; i++) {
+		c = parti[i][C_CODICE];
+		
+		if(c.substring(0, len) == codice) {
+			if(k % 2) {
+				bgcolor = "#040404";
+			} else {
+				bgcolor = "#000000";
+			}
+			
+			var		draw = GetTavDraw(parti[i][C_TAVOLA]);
+			
+			s += "<tr valign=top bgcolor=" + bgcolor + " class=T12 onmouseover=\"Javascript: changeTavGif('" + draw + "');\">";
+			s += "<td width=120>" + parti[i][C_CODICE] + "</td>";
+			s += "<td width=80><a href='tavola_frame.html?tavola=" + parti[i][C_TAVOLA] + "' target=_top>" + ico_pointer + parti[i][C_TAVOLA] + "</a></td>";
+			s += "<td width=50 align=left>" + parti[i][C_POS] + "</td>\n";
+			s += "<td width=270>" + parti[i][C_ITA + lingua] + "</td></tr>\n";
+			
+			k++;
+		}
+	}
+	
+	s += "</table>\n";
+
+	document.write(s);
+}
+
+
+function changeTavGif(s)
+{
+	window.parent.document.tav_gif.src = "preview_440/" + s + ".gif";
+}
+
+</script>
+</head>
+<body bgcolor='#000000' topmargin=0 leftmargin=0 rightmargin=0 marginwidth=0 marginheight=0>

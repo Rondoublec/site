@@ -1,0 +1,236 @@
+﻿<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<title>DUCATI - Spare Parts</title>
+</head>
+
+<link rel="stylesheet" href="styles.css">
+<script src="global.js"></script>
+<script src="functions.js"></script>
+<script src="tav_data.js"></script>
+
+<body bgcolor=#000000 topmargin=0 leftmargin=0 rightmargin=0 marginwidth=0 marginheight=0>
+<!-- TESTATA / INIZIO -->
+<table width=100% height=88 cellspacing=0 cellpadding=0 bgcolor=#000000>
+<tr>
+<td width=22></td>
+<td width=143 height=88 align=center valign='top' rowspan=3><img src='../images_idx/logo.png' border=0></img></td>
+<td width=34></td>
+<td>
+	<table width=100% height=88 cellspacing=0 cellpadding=1>
+	<tr>
+		<td height=38 align=center valign=center id='model' class=T20B>MODEL</td>
+		<td width=12% align=center valign=center><a href='index.html'   class=T10 target=_top><img src='icons/home.gif' align=center border=0></img>Home</a></td>
+		<td width=12% align=center valign=center><a href='search.html'  class=T10 target=_top><img src='icons/search.gif' align=center border=0></img>Search</a></td>
+		<td width=12% align=center valign=center><a href='catalogo.pdf' class=T10 target=_top><img src='icons/print_small.gif' align=center border=0></img>Print</a></td>
+		<td width=12% align=center valign=center><a href='Javascript: goMain();'   class=T10 target=_top><img src='icons/ap.gif' align=center border=0></img>Main</a></td>
+	</tr>
+	<tr class=T12>
+		<td width=100% height=2 align=center colspan=5 bgcolor=#E50004></td>
+	</tr>
+	<tr class=T12>
+		<td width=100% height=48 align=center colspan=5></td>
+	</tr>
+	</table>	
+</td></tr>
+</table>
+<!-- TESTATA / FINE -->
+
+<br>
+<br>
+
+<table width=95% height=75% cellspacing=1 cellpadding=1 bgcolor=#000000 align=center><tr>
+
+<td width=70% align=center valign=top id='preview' class=T12>
+<br><img id='moto_jpg' border=0></img></td>
+<td width=16></td>
+<td width=30% id='tav_list' valign=top></td>
+</tr></table>
+
+<table width=90% height=5 cellspacing=0 cellpadding=0 align=center><tr><td></td></tr></table>
+<table width=90% height=1 cellspacing=0 cellpadding=0 align=center><tr><td bgcolor=#FFFFFF></td></tr></table>
+<table width=90% height=5 cellspacing=0 cellpadding=0 align=center><tr><td></td></tr></table>
+
+<!--
+<table width=100% cellspacing=0 cellpadding=0 align=center><tr>
+<td width=20% align=center><img src='icons/flag_ita.gif'></img>&nbsp;&nbsp;<a href='Javascript: SetLingua(0);' class=T10>Italiano</a></td>
+<td width=20% align=center><img src='icons/flag_ing.gif'></img>&nbsp;&nbsp;<a href='Javascript: SetLingua(1);' class=T10>English</a></td>
+<td width=20% align=center><img src='icons/flag_fra.gif'></img>&nbsp;&nbsp;<a href='Javascript: SetLingua(2);' class=T10>French</a></td>
+<td width=20% align=center><img src='icons/flag_ted.gif'></img>&nbsp;&nbsp;<a href='Javascript: SetLingua(3);' class=T10>German</a></td>
+<td width=20% align=center><img src='icons/flag_spa.gif'></img>&nbsp;&nbsp;<a href='Javascript: SetLingua(4);' class=T10>Spanish</a></td>
+</tr></table>
+-->
+
+</body>
+
+<script>
+
+var		g_pagina = 1;
+
+
+printTavPage(1);
+SetInnerHTML("model", modello);
+
+
+// CAMBIA L'IMMAGINE
+var		obj;
+obj = document.getElementById("moto_jpg");
+if(obj != null)	{	obj.src = moto_jpg;	}
+
+
+function goMain() {
+	window.location = "../wsm/" + lingua_domain + "/main_" + lingua_domain + ".html";
+}
+	
+
+function printTavPage(pagina)
+{
+	var			s = "";
+	var			t = "";
+	var			t_title = "<td align=center class=T12><b>&nbsp;</b></td>";
+	var			i;
+	var			tav_nome;
+	var			tav_display;
+	var			last_tav = tavole[tavole.length - 1][0];
+	var			n_pages;
+	
+	n_pages		= parseInt(last_tav.charAt(1)) + 1;
+	g_pagina	= pagina;
+	
+	
+	// -----------------------------------------------------------------------------------
+	// FRECCE DI CAMBIO PAGINA
+	// -----------------------------------------------------------------------------------
+
+	if(pagina == 1) {			// <<
+		t += "<td align=left width=24>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+	} else {
+		t += "<td align=left width=24><a href=\"Javascript: printTavPage(" + (pagina - 1) + ");\">";
+		t += "<img src='icons/a_left.gif' border=0></img></a></td>";
+	}
+
+	t += t_title;
+	
+	if(pagina == n_pages) {		// >>
+		t += "<td align=left width=24>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+	} else {
+		t += "<td align=left width=24><a href=\"Javascript: printTavPage(" + (pagina + 1) + ");\">";
+		t += "<img src='icons/a_right.gif' border=0></img></a></td>";
+	}
+	
+	t += "</tr></table></div>";
+	
+	// -----------------------------------------------------------------------------------
+	
+
+	s += t + "\n";
+	s += "<table width=100% cellspacing=1 cellpadding=2 bgcolor=#FFFFFF>\n";
+	
+	for(i = 0; i < tavole.length; i++) {
+		tav_nome	= tavole[i][0];
+		tav_display	= false;
+		
+		var		dec_before	= ("0" + (pagina - 1) + "0");
+		var		dec_after	= ("0" +  pagina      + "0");
+			
+		if(tav_nome >= dec_before && tav_nome < dec_after)	{	tav_display = true;	}
+		
+		if(tav_display == true) {
+			s += "<tr class=T12B><td>";
+			s += "<table cellspacing=0 cellpadding=0><tr class=T12B>";
+			s += "<td width=40 valign=top>" + tav_nome + "</td>";
+			s += "<td><a onmouseover=\"Javascript: SetPreview('" + tavole[i][2] + "');\" href='tavola_frame.html?tavola=" + tav_nome + "' class=T10>" + tavole[i][3 + lingua] + "</a></td>";
+//			s += "<td><a href='#' onmouseover='Javascript: SetPreview();' onclick='tavola.html?tavola=" + tav_nome + "' class=T10>" + tavole[i][3] + "</a></td>";
+//			s += "<td><a href='tavola.html?tavola=" + tav_nome + "' class=T10>" + tavole[i][3] + "</a></td>";
+			s += "</tr></table>\n";
+			s += "</td></tr>\n";
+		}
+	}
+	
+	s += "</table>\n";
+
+	SetInnerHTML("tav_list", s);
+}
+
+function printTavList(tipo)
+{
+	var			s = "";
+	var			i;
+	var			tav_nome;
+	var			tav_display;
+	var			atr = "001;001a;001b;001c;001d;";
+	var			mot = "002;003;004;005;005a;006;007;008;009;010;010a;011;012;013;014;014a;015;016;017;";
+	
+	s += "<table width=100% cellspacing=1 cellpadding=2 bgcolor=#FFFFFF>\n";
+	
+	for(i = 0; i < tavole.length; i++) {
+		tav_nome	= tavole[i][C_TAVOLA];
+		tav_display	= false;
+		
+		switch(tipo) {
+			case 1:
+			if(atr.indexOf(tav_nome) != -1)	{	tav_display = true;	}
+			break;
+			
+			case 2:
+			if(mot.indexOf(tav_nome) != -1)	{	tav_display = true;	}
+			break;
+			
+			case 3:
+			tav_display	= true;
+			if(atr.indexOf(tav_nome) != -1)	{	tav_display = false;	}
+			if(mot.indexOf(tav_nome) != -1)	{	tav_display = false;	}
+			break;
+		}
+		
+		if(tav_display == true) {
+			s += "<tr class=T12B><td>";
+			s += "<table cellspacing=0 cellpadding=0><tr class=T12B>";
+			s += "<td width=40>" + tav_nome + "</td>";
+			s += "<td><a href='tavola.html?tavola=" + tav_nome + "'>" + tavole[i][3] + "</a></td>";
+			s += "</tr></table>\n";
+			s += "</td></tr>\n";
+		}
+	}
+	
+	s += "</table>\n";
+	
+	SetInnerHTML("tav_list", s);
+}
+
+/*
+function SetLingua(x)
+{
+	lingua = x;
+		
+	switch(x) {
+		case 0:		lingua_str = "ita";		break;	
+		case 1:		lingua_str = "ing";		break;	
+		case 2:		lingua_str = "fra";		break;	
+		case 3:		lingua_str = "ted";		break;	
+		case 4:		lingua_str = "spa";		break;	
+	}
+	
+	setVar("lingua", lingua);
+	setVar("lingua_str", lingua_str);
+	
+	printTavPage(g_pagina);
+}
+*/
+
+function SetMainMoto()
+{
+	SetInnerHTML("preview", "<br><img src='moto.jpg' border=0></img>");
+}
+
+
+function SetPreview(s)
+{
+	SetInnerHTML("preview", "<br><img src='preview_440/" + s + ".gif' border=1></img>");
+}
+
+
+</script>
+
+</html>

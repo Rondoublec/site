@@ -1,0 +1,37 @@
+﻿<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<title>head</title>
+</head>
+<link rel="stylesheet" href="styles.css">
+
+<script src="global.js"></script>
+<script src="functions.js"></script>
+<body bgcolor=#000000 topmargin=0 leftmargin=0 rightmargin=0 marginwidth=0 marginheight=0>
+
+<!-- TESTATA / INIZIO -->
+<table width=100% height=32 cellspacing=0 cellpadding=1 bgcolor=#000000><tr class=T12>
+<td align=center id='model' class=T20B>MODEL</td>
+<td width=12% align=center><a href='index.html'   class=T10 target=_top><img src='icons/home.gif' align=center border=0></img>Home</a></td>
+<td width=12% align=center><a href='search.html'  class=T10 target=_top><img src='icons/search.gif' align=center border=0></img>Search</a></td>
+<td width=12% align=center><a href='catalogo.pdf' class=T10 target=_top><img src='icons/print_small.gif' align=center border=0></img>Print</a></td>
+<td width=12% align=center><a href='Javascript: goMain();'   class=T10><img src='icons/ap.gif' align=center border=0></img>Main</a></td>
+</tr></table>
+<!--
+<table width=100% height=2 cellspacing=0 cellpadding=0 bgcolor=#000000><tr><td bgcolor=#FF0000></td></tr></table>
+-->
+ <!-- TESTATA / FINE -->
+
+</body>
+
+<script>
+SetInnerHTML("model", modello);
+
+function goMain() {
+	window.parent.location = "../wsm/" + lingua_domain + "/main_" + lingua_domain + ".html";
+}
+
+</script>
+
+</html>
